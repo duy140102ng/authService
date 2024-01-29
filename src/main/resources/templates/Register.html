@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<th:block th:include="/_header_on" th:if="${userDto.email}"></th:block>
+<th:block th:include="/_header_off" th:unless="${userDto.email}"></th:block>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3"> <!-- Use "offset-md-3" instead of "col-md-offset-3" -->
+            <!-- success message  -->
+            <div th:if="${param.success}">
+                <div class="alert alert-info">Đăng ký thành công</div>
+            </div>
+
+            <h1>Registration</h1>
+            <form th:action="@{/registration}" method="post" th:object="${userDto}">
+                <div class="form-group">
+                    <label class="control-label" for="Email">Email</label>
+                    <input type="text" id="Email" class="form-control" th:field="${userDto.email}" required autofocus="autofocus"/>
+                </div>
+                <div th:if="${param.emailexist}">
+                    <div class="alert alert-info">Email bạn đã tồn tại</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="UserDisplayName">Tên người dùng</label>
+                    <input type="text" id="UserDisplayName" class="form-control" th:field="${userDto.userDisplayName}" required/>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="Password">Mật khẩu</label>
+                    <input type="password" id="Password" class="form-control" th:field="${userDto.password}" required/>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="checkPass">Nhập lại mật khẩu</label>
+                    <input type="password" id="checkPass" class="form-control" th:field="${checkPass}" required/>
+                </div>
+
+                <div th:if="${param.checkpass}">
+                    <div class="alert alert-info">Mật khẩu bạn nhập không đúng</div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Register</button>
+                    <span>Already registered ? <a href="/" th:href="@{/login}">Login here</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
